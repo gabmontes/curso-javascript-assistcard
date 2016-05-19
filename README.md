@@ -53,3 +53,9 @@ Mejorar las habilitades de desarrollo utilizando tecnologías Javascript, desde 
 
 - JavaScript Patterns, Stoyan Stefanov, O'Reilly Media, 2010: http://shop.oreilly.com/product/9780596806767.do
 - JavaScript, Coderhouse, GitBook: https://www.gitbook.com/book/coderhouse/javascript/details
+
+# Asistencia adicional
+
+Los participantes tienen el siguiente equipo de Slack para hacer consultas adicionales:
+
+https://assistcard-coderhouse.slack.com
