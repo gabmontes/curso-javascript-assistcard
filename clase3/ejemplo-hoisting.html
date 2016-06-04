@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hoisting</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+    function hoisted () {
+      return 'function 1';
+    }
+
+    console.log(hoisted()); // logs 'function 2' due to hoisting
+
+    function hoisted () {
+      return 'function 2';
+    }
+
+    </script>
+  </body>
+</html>

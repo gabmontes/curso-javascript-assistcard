@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IIFE</title>
+  </head>
+  <body>
+    <button type="button" id="button">Click</button>
+    <script type="text/javascript">
+
+      // Immediately invoked function expression
+
+      (function (global) {
+        var message = 'clicked from closure';
+
+        function logClick () {
+          console.log(message);
+        }
+
+        global.button.addEventListener('click', logClick);
+      })(this);
+
+    </script>
+  </body>
+</html>
