@@ -1,9 +1,19 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "env": {
     "browser": true
   },
   "globals": {
     "$": true
   },
-  "extends": "eslint:recommended"
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-console": "off",
+    "semi": "warn"
+  },
+  "plugins": [
+    "html"
+  ]
 }
