@@ -36,6 +36,10 @@ Mejorar las habilitades de desarrollo utilizando tecnologías Javascript, desde 
   - Callback
   - Event Emitter / Observer
   - Promises
+7. Extra
+  - Module loaders (RequireJS, AMD...)
+  - Bundling & Minification (r.js, Uglyfy.js, CloudFlare)
+  - Linters (JSLint, JSHint, ESLint)
 
 ## Requisitos
 

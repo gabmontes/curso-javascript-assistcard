@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Módulo</title>
+  </head>
+  <body>
+    <button type="button" id="button">Click!</button>
+    <script type="text/javascript">
+
+      var modulo = (function () {
+        var privada = 'mi variable';
+
+        function obtenerVariable () {
+          return privada;
+        }
+        function definirVariable (valor) {
+          privada = valor;
+          return obtenerVariable();
+        }
+
+        return {
+          obtenerVariable: obtenerVariable,
+          definirVariable: definirVariable
+        };
+      })();
+
+      button.addEventListener('click', function () {
+        console.log(modulo.obtenerVariable());
+      });
+
+    </script>
+  </body>
+</html>

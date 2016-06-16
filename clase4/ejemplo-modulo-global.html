@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Módulo</title>
+  </head>
+  <body>
+    <button type="button" id="button">Click!</button>
+    <script type="text/javascript">
+
+      (function (global) {
+        var privada = 'mi variable';
+
+        global.modulo = {
+          obtenerVariable: function () {
+            return privada;
+          },
+          definirVariable: function (valor) {
+            privada = valor;
+          }
+        };
+      })(this);
+
+      button.addEventListener('click', function () {
+        console.log(modulo.obtenerVariable());
+      });
+
+    </script>
+  </body>
+</html>
