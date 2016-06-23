@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "browserify index-cjs.js -o bundle.js"
+  },
+  "dependencies": {
+    "moment": "^2.13.0"
+  }
+}
