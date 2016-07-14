@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mediator</title>
+  </head>
+  <body>
+    <button id="button1">0</button>
+    <button id="button2">0</button>
+    <button id="button3">0</button>
+    <input type="text" id="input" value="0">
+
+    <script type="text/javascript">
+
+      var mediator = {
+        buttons: [],
+        inputs: [],
+        addButton: function (elem) {
+          this.buttons.push(elem);
+        },
+        addInput: function (elem) {
+          this.inputs.push(elem);
+        },
+        update: function (count) {
+          this.buttons.forEach(function (b) {
+            b.textContent = count;
+          });
+          this.inputs.forEach(function (i) {
+            i.value = count;
+          });
+        }
+      };
+
+      function updateButtonCount(event) {
+        var count = parseInt(event.target.textContent);
+        mediator.update(count + 1);
+      }
+      function attachClick(elem) {
+        elem.addEventListener('click', updateButtonCount);
+      }
+      var elems = document.getElementsByTagName('button');
+      var buttons = Array.prototype.slice.call(elems);
+      buttons.forEach(mediator.addButton.bind(mediator));
+      buttons.forEach(attachClick);
+
+      mediator.addInput(input);
+      function updateInputCount(event) {
+        var count = parseInt(event.target.value);
+        mediator.update(count);
+      }
+      input.addEventListener('change', updateInputCount);
+
+    </script>
+  </body>
+</html>

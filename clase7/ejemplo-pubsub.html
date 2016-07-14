@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PubSub</title>
+  </head>
+  <body>
+    <button id="button1">0</button>
+    <button id="button2">0</button>
+    <button id="button3">0</button>
+    <input type="text" id="input" value="0">
+
+    <script type="text/javascript">
+
+      var mediator = {
+        listeners: [],
+        subscribe: function (listener) {
+          this.listeners.push(listener);
+        },
+        update: function (count) {
+          this.listeners.forEach(function (listener) {
+            listener(count);
+          });
+        }
+      };
+
+      function updateButtonCount(event) {
+        var count = parseInt(event.target.textContent);
+        mediator.update(count + 1);
+      }
+      function attachClick(elem) {
+        elem.addEventListener('click', updateButtonCount);
+      }
+      var elems = document.getElementsByTagName('button');
+      var buttons = Array.prototype.slice.call(elems);
+      buttons.forEach(function (button) {
+        mediator.subscribe(function (count) {
+          button.textContent = count;
+        });
+      });
+      buttons.forEach(attachClick);
+
+      mediator.subscribe(function (count) {
+        input.value = count;
+      });
+      function updateInputCount(event) {
+        var count = parseInt(event.target.value);
+        mediator.update(count);
+      }
+      input.addEventListener('change', updateInputCount);
+
+    </script>
+  </body>
+</html>
