@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PubSub</title>
+  </head>
+  <body>
+    <div>
+      <button class='grupo1'>0</button>
+      <button class='grupo1'>0</button>
+      <button class='grupo1'>0</button>
+      <input type="text" id="input" value="0">
+    </div>
+    <br>
+    <div>
+      <button class='grupo2'>0</button>
+      <button class='grupo2'>0</button>
+    </div>
+    <br>
+    <div>
+      <button class="reset">Reset</button>
+    </div>
+
+    <script type="text/javascript">
+
+      // Pubsub ----------------------------------------------------------------
+
+      var pubsub = {
+        listeners: {},
+        subscribe: function (event, listener) {
+          this.listeners[event] = this.listeners[event] || [];
+          this.listeners[event].push(listener);
+        },
+        publish: function (event, data) {
+          if (this.listeners[event]) {
+            this.listeners[event].forEach(function (listener) {
+              listener(data);
+            });
+          }
+        }
+      };
+
+      // Group 1 buttons--------------------------------------------------------
+
+      (function () {
+        function updateButtonCount(event) {
+          var count = parseInt(event.target.textContent);
+          pubsub.publish('inc-group-1', count + 1);
+        }
+        function attachClick(elem) {
+          elem.addEventListener('click', updateButtonCount);
+        }
+        var elems = document.getElementsByClassName('grupo1');
+        var buttons = Array.prototype.slice.call(elems);
+        buttons.forEach(function (button) {
+          pubsub.subscribe('inc-group-1', function (count) {
+            button.textContent = count;
+          });
+        });
+        buttons.forEach(attachClick);
+      })();
+
+      // Group 2 buttons -------------------------------------------------------
+
+      (function () {
+        var elems = document.getElementsByClassName('grupo2');
+        var buttons = Array.prototype.slice.call(elems);
+        buttons.forEach(function (button) {
+          pubsub.subscribe('inc-group-2', function (count) {
+            button.textContent = count;
+          });
+          button.addEventListener('click', function (event) {
+            var count = parseInt(event.target.textContent);
+            pubsub.publish('inc-group-2', count + 1);
+          });
+        });
+      })();
+
+      // Group 1 input ---------------------------------------------------------
+
+      (function () {
+        var input = window.input;
+        pubsub.subscribe('inc-group-1', function (count) {
+          input.value = count;
+        });
+        function updateInputCount(event) {
+          var count = parseInt(event.target.value);
+          pubsub.publish('inc-group-1', count);
+        }
+        input.addEventListener('change', updateInputCount);
+      })();
+
+      // -----------------------------------------------------------------------
+
+    </script>
+  </body>
+</html>

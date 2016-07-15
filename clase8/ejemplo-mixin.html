@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mixin</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      // Mixins ----------------------------------------------------------------
+
+      var encendible = {
+        encender: function () {
+          console.log(this.ruido);
+        }
+      };
+
+      var garantizable = {
+        estaEnGarantia: function () {
+          console.log('No');
+        }
+      };
+
+      // Autos -----------------------------------------------------------------
+
+      function Auto() {
+        this.marca = 'Chevrolet';
+        this.ruido = 'Bruuuumm';
+        this.createdAt = Date.now();
+      }
+      Object.assign(Auto.prototype, encendible, garantizable);
+
+      console.log(new Auto.encender());
+
+      // Licuadoras ------------------------------------------------------------
+
+      function Licuadora() {
+        this.marca = 'Philips';
+        this.ruido = 'Grrrrrr';
+        this.createdAt = Date.now();
+      }
+      Object.assign(Licuadora.prototype, encendible, garantizable);
+
+      console.log(new Licuadora.estaEnGarantia());
+
+      // -----------------------------------------------------------------------
+
+    </script>
+  </body>
+</html>

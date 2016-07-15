@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Static members</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      // Static funcion --------------------------------------------------------
+
+      function MiObjeto(val) {
+        this.valor = val;
+        this.staticFn = MiObjeto.staticFn;
+      }
+
+      var o2 = new MiObjeto(2);
+      console.log(o2.valor);
+      console.log(typeof o2.staticFn);
+
+      MiObjeto.staticFn = function (val) {
+        console.log('val: %s', val);
+      };
+
+      var o3 = new MiObjeto(3);
+      console.log(o3.valor);
+      o3.staticFn(4);
+      MiObjeto.staticFn(5);
+
+      // Private static member -------------------------------------------------
+
+      var MiObjeto2 = (function () {
+
+        var cantidad = 0;
+
+        function Constructor() {
+          cantidad++;
+        }
+
+        Constructor.cant = function () {
+          return cantidad;
+        };
+
+        Constructor.prototype.cant = Constructor.cant;
+
+        return Constructor;
+      })();
+
+      var p = new MiObjeto2();
+      var q = new MiObjeto2();
+
+      console.log(p.cant());
+      console.log(MiObjeto2.cant());
+
+      var r = new MiObjeto2();
+
+      console.log(MiObjeto2.cant());
+
+      // -----------------------------------------------------------------------
+
+    </script>
+  </body>
+</html>
