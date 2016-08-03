@@ -25,39 +25,47 @@
 
       // Pubsub ----------------------------------------------------------------
 
-      var pubsub = {
-        listeners: {},
-        subscribe: function (event, listener) {
-          this.listeners[event] = this.listeners[event] || [];
-          this.listeners[event].push(listener);
-        },
-        publish: function (event, data) {
-          if (this.listeners[event]) {
-            this.listeners[event].forEach(function (listener) {
-              listener(data);
-            });
+      (function (global) {
+        /* globals pubsub */
+        global.pubsub = {
+          listeners: {},
+          subscribe: function (event, listener) {
+            this.listeners[event] = this.listeners[event] || [];
+            this.listeners[event].push(listener);
+          },
+          publish: function (event, data) {
+            console.log(event, data);
+            if (this.listeners[event]) {
+              this.listeners[event].forEach(function (listener) {
+                listener(data);
+              });
+            }
           }
-        }
-      };
+        };
+      })(this);
+
 
       // Group 1 buttons--------------------------------------------------------
 
       (function () {
-        function updateButtonCount(event) {
-          var count = parseInt(event.target.textContent);
-          pubsub.publish('inc-group-1', count + 1);
-        }
-        function attachClick(elem) {
-          elem.addEventListener('click', updateButtonCount);
-        }
         var elems = document.getElementsByClassName('grupo1');
         var buttons = Array.prototype.slice.call(elems);
-        buttons.forEach(function (button) {
-          pubsub.subscribe('inc-group-1', function (count) {
-            button.textContent = count;
+
+        buttons.forEach(function (elem) {
+          elem.addEventListener('click', function (event) {
+            var count = parseInt(event.target.textContent);
+            pubsub.publish('set-group-1', count + 1);
           });
         });
-        buttons.forEach(attachClick);
+
+        buttons.forEach(function (button) {
+          pubsub.subscribe('set-group-1', function (count) {
+            button.textContent = count;
+          });
+          pubsub.subscribe('reset', function () {
+            button.textContent = 0;
+          });
+        });
       })();
 
       // Group 2 buttons -------------------------------------------------------
@@ -65,13 +73,20 @@
       (function () {
         var elems = document.getElementsByClassName('grupo2');
         var buttons = Array.prototype.slice.call(elems);
+
         buttons.forEach(function (button) {
-          pubsub.subscribe('inc-group-2', function (count) {
-            button.textContent = count;
-          });
           button.addEventListener('click', function (event) {
             var count = parseInt(event.target.textContent);
-            pubsub.publish('inc-group-2', count + 1);
+            pubsub.publish('set-group-2', count + 1);
+          });
+        });
+
+        buttons.forEach(function (button) {
+          pubsub.subscribe('set-group-2', function (count) {
+            button.textContent = count;
+          });
+          pubsub.subscribe('reset', function () {
+            button.textContent = 0;
           });
         });
       })();
@@ -80,14 +95,32 @@
 
       (function () {
         var input = window.input;
-        pubsub.subscribe('inc-group-1', function (count) {
+
+        input.addEventListener('change', function (event) {
+          var count = parseInt(event.target.value);
+          pubsub.publish('set-group-1', count);
+        });
+
+        pubsub.subscribe('set-group-1', function (count) {
           input.value = count;
         });
-        function updateInputCount(event) {
-          var count = parseInt(event.target.value);
-          pubsub.publish('inc-group-1', count);
-        }
-        input.addEventListener('change', updateInputCount);
+        pubsub.subscribe('reset', function () {
+          input.value = 0;
+        });
+      })();
+
+      // Reset -----------------------------------------------------------------
+
+      (function () {
+        var reset = document.getElementsByClassName('reset')[0];
+
+        reset.addEventListener('click', function () {
+          reset.setAttribute('disabled', true);
+          setTimeout(function () {
+            pubsub.publish('reset');
+            reset.removeAttribute('disabled');
+          }, 2000);
+        });
       })();
 
       // -----------------------------------------------------------------------
